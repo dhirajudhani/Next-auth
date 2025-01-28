@@ -1,10 +1,10 @@
 "use client"
 
-import { signIn, signOut } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import React from 'react'
 
 const Appbar = () => {
-
+    const session = useSession()
   return (
     <div>
         <button onClick={() => {
@@ -13,6 +13,7 @@ const Appbar = () => {
          <button onClick={() => {
             signOut()
         }}>Sign out</button>
+        {JSON.stringify(session)}
     </div>
   )
 }
