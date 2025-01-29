@@ -13,14 +13,33 @@ const handler = NextAuth({
             async authorize(credentials: any){
                 console.log(credentials)
                 return {
-                    id: "user1",
-                    username: "dhiraj",
-                    password: "sfl"
+                    id: "1",
+                    name: "dhiraj",
+                    email: "sfl"
                 }
             }
         })
     ],
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET,
+    callbacks : {
+        jwt : ({token, user}) => {
+            console.log(token)
+            token.userId = token.sub
+            // console.log(user)
+            console.log(token)
+            return token
+        },
+        session : ({token, session, user} : any) => {
+            console.log(token)
+            console.log(session)
+            console.log(user)
+            if(session && session.user){
+
+                session.user.id = token.sub
+            }
+            return session
+        }
+    }
 })
 
 export const GET = handler
